@@ -74,6 +74,11 @@
             color: #999;
         }
 
+        .news-image {
+            max-width: 100%;
+            margin-bottom: 15px;
+        }
+
         footer {
             background-color: #333;
             color: #fff;
@@ -121,13 +126,15 @@
                 let outputHTML = '';
 
                 // Loop through the data and create news cards
-                data.articles.forEach(article => {
+                data.forEach(article => {
                     outputHTML += `
                         <div class="news-card">
                             <div class="news-title">${article.title}</div>
+                            <img src="${article.urlToImage}" alt="${article.title}" class="news-image">
                             <div class="news-details">${article.description}</div>
                             <div class="news-author"><strong>Author:</strong> ${article.author || 'N/A'}</div>
                             <div class="news-date"><strong>Published Date:</strong> ${new Date(article.publishedAt).toLocaleDateString()}</div>
+                            <a href="${article.url}" target="_blank">Read more</a>
                         </div>
                     `;
                 });
