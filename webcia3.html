@@ -1,35 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Library Books</title>
+    <title>News WebApp</title>
     <style>
-        
+        html,
         body {
-            font-family: Arial, sans-serif;
+            height: 100%;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-            background-color: #f4f4f4;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
         }
 
-        
-        nav {
-            background-color: #333;
+        body {
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            flex: 1;
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        footer {
+            background-color: #959699;
             color: #fff;
-            padding: 10px;
             text-align: center;
+            padding: 10px;
+            margin-top: auto;
+            position: relative;
+            width: 100%;
+        }
+
+        nav {
+            background-color: #a5a5a5;
+            color: #fff;
+            padding: 15px 0;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         nav ul {
             list-style: none;
             padding: 0;
+            margin: 0;
         }
 
         nav ul li {
             display: inline;
-            margin: 0 15px;
+            margin: 0 20px;
         }
 
         nav ul li a {
@@ -38,234 +64,363 @@
             font-weight: bold;
         }
 
-        
-        .hero {
-            background-image: url('pngtree-beautiful-girl-reading-books-image_13372038.jpg');
-            background-size: cover;
-            background-position: center;
-            height: 500px;
+        #fetchnews {
+            background-color: #afb0b4;
             color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-bottom: 20px;
         }
 
-        .hero h1 {
-            font-size: 48px;
+        #fetchnews:hover {
+            background-color: #003399;
+        }
+
+        #search {
+            padding: 10px;
+            width: 100%;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        .news-card {
+            background-color: white;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .news-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .news-card h3 {
+            margin: 0;
+            font-size: 22px;
+            color: #0044cc;
+        }
+
+        .news-card .news-details {
+            display: none;
+            margin-top: 10px;
+            color: #555;
+        }
+
+        .news-card.active .news-details {
+            display: block;
+        }
+
+        footer p {
             margin: 0;
         }
 
-        .hero p {
-            font-size: 24px;
-        }
-
-        
-        .container {
+        .login-container {
+            max-width: 400px;
+            margin: 20px auto;
             padding: 20px;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-
-        .signup-form {
             background-color: #fff;
-            padding: 20px;
-            border: 1px solid #ddd;
-            margin-top: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
-        .signup-form input, .signup-form button {
+        .login-container h2 {
+            margin-top: 0;
+            color: #0044cc;
+            font-size: 24px;
+            text-align: center;
+        }
+
+        .login-container input {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            font-size: 16px;
             display: block;
-            width: 100%;
-            margin-bottom: 15px;
-            padding: 10px;
-            font-size: 16px;
+            margin: 10px auto;
         }
 
-        .signup-form button {
-            background-color: #333;
-            color: #fff;
+        .login-container button {
+            background-color: #0044cc;
+            color: white;
+            padding: 10px 20px;
             border: none;
+            border-radius: 5px;
             cursor: pointer;
+            font-size: 16px;
+            display: block;
+            margin: 10px auto;
         }
 
-        
-        #fetchbooks, #search, #sorting {
-            margin: 10px;
-            padding: 10px;
+        .login-container button:hover {
+            background-color: #003399;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .success-message {
+            color: green;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .pagination {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .pagination button {
+            background-color: #0044cc;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 0 5px;
+            cursor: pointer;
+            border-radius: 5px;
             font-size: 16px;
         }
 
-        #books-container table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
+        .pagination button:hover {
+            background-color: #003399;
         }
 
-        #books-container th, #books-container td {
-            border: 1px solid #ddd;
-            padding: 8px;
+        .pagination span {
+            margin: 0 10px;
+            font-size: 16px;
         }
 
-        #books-container th {
-            background-color: #f2f2f2;
-            text-align: center;
-        }
-
-        #books-container td {
-            text-align: left;
-        }
-
-        
-        footer {
-            background-color: #333;
-            color: #fff;
-            text-align: center;
+        select {
             padding: 10px;
-            position: relative;
-            width: 100%;
-            bottom: 0;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+            margin: 10px 0;
+            width: 200px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease;
+        }
+
+        select:focus {
+            outline: none;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
         }
     </style>
 </head>
+
 <body>
     <nav>
         <ul>
             <li><a href="#">Home</a></li>
-            <li><a href="json.html">api-fetch</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Contact</a></li>
         </ul>
     </nav>
 
-    
-    <div class="hero">
-        <div>
-            <h1>Welcome to Our Library</h1>
-            <p>Discover a world of books</p>
-        </div>
+    <div class="login-container">
+        <h2>Login</h2>
+        <input type="text" id="username" placeholder="Username" required>
+        <input type="password" id="password" placeholder="Password" required>
+        <button id="login">Login</button>
+        <p class="error-message" id="error-message"></p>
+        <p class="success-message" id="success-message"></p>
     </div>
 
-    
     <div class="container">
-        <button id="fetchbooks" disabled>Fetch Books</button>
-        <input type="text" placeholder="Search book name" id="search" disabled>
-        <select id="sorting" disabled>
-            <option value="asc">Name Ascending</option>
-            <option value="desc">Name Descending</option>
-        </select>
-        <div id="books-container"></div>
-        <div id="pagination-container"></div>
-
-        
-        <div class="signup-form">
-            <h2>Sign Up</h2>
-            <form id="signupForm">
-                <input type="text" id="name" placeholder="Full Name" required>
-                <input type="email" id="email" placeholder="Email Address" required>
-                <input type="password" id="password" placeholder="Password" required>
-                <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
-                <button type="submit">Sign Up</button>
-            </form>
-            <div id="signupMessage" style="color:red;"></div>
+        <button id="fetchnews" disabled>Fetch News</button>
+        <input type="text" placeholder="Search News" id="search" disabled>
+        <div>
+            <select id="categoryFilter">
+                <option value="">All Categories</option>
+                <option value="business">Business</option>
+                <option value="entertainment">Entertainment</option>
+            </select>
+            <select id="sortDirection">
+                <option value="asc">Ascending</option>
+                <option value="desc">Descending</option>
+            </select>
+        </div>
+        <div id="news-container"></div>
+        <div class="pagination">
+            <button id="prevPage" disabled>Previous</button>
+            <span id="pageInfo">Page 1</span>
+            <button id="nextPage" disabled>Next</button>
         </div>
     </div>
 
-    
+
     <footer>
-        <p>&copy; 2024 Library Management. All Rights Reserved.</p>
+        <p>&copy; 2024 News WebApp. All Rights Reserved.</p>
     </footer>
 
-    <script src="api.js"></script>
+
     <script>
-        let isSignedUp = false;
+        let newsList = [];
+        let currentPage = 1;
+        const newsPerPage = 5;
 
-        document.getElementById('signupForm').addEventListener('submit', function (e) {
-            e.preventDefault(); 
+        let mainContainer = document.querySelector('#news-container');
+        let searchInput = document.querySelector('#search');
+        let fetchNewsButton = document.querySelector('#fetchnews');
+        let loginButton = document.querySelector('#login');
+        let errorMessage = document.querySelector('#error-message');
+        let successMessage = document.querySelector('#success-message');
+        let prevPageButton = document.querySelector('#prevPage');
+        let nextPageButton = document.querySelector('#nextPage');
+        let pageInfo = document.querySelector('#pageInfo');
+        let categoryFilter = document.querySelector('#categoryFilter');
+        let sortDirection = document.querySelector('#sortDirection');  // Fix this variable
 
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            const confirmPassword = document.getElementById('confirmPassword').value;
-            const message = document.getElementById('signupMessage');
+        // Regular expressions for validation
+        const usernameRegex = /^[A-Za-z]+$/;
+        const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
 
-            
-            if (name.length < 3) {
-                message.textContent = "Name must be at least 3 characters long.";
-                return;
+        loginButton.addEventListener('click', () => {
+            const username = document.querySelector('#username').value;
+            const password = document.querySelector('#password').value;
+
+            if (usernameRegex.test(username) && passwordRegex.test(password)) {
+                errorMessage.textContent = '';
+                successMessage.textContent = 'Login successful!';
+                enableSearch();
+            } else {
+                successMessage.textContent = '';
+                errorMessage.textContent = 'Invalid login. Please try again.';
+                disableSearch();
             }
-
-            if (!validateEmail(email)) {
-                message.textContent = "Please enter a valid email address.";
-                return;
-            }
-
-            if (password.length < 6) {
-                message.textContent = "Password must be at least 6 characters long.";
-                return;
-            }
-
-            if (password !== confirmPassword) {
-                message.textContent = "Passwords do not match.";
-                return;
-            }
-
-
-            message.style.color = "green";
-            message.textContent = "Sign-up successful!";
-            enableSearchAndFetch();
         });
 
-        function validateEmail(email) {
-            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return re.test(String(email).toLowerCase());
+        function enableSearch() {
+            fetchNewsButton.disabled = false;
+            searchInput.disabled = false;
         }
 
-        function enableSearchAndFetch() {
-            isSignedUp = true;
-            document.getElementById('fetchbooks').disabled = false;
-            document.getElementById('search').disabled = false;
-            document.getElementById('sorting').disabled = false;
+        function disableSearch() {
+            fetchNewsButton.disabled = true;
+            searchInput.disabled = true;
         }
 
-        
-        document.getElementById('fetchbooks').addEventListener('click', function () {
-            if (!isSignedUp) return;
-            fetch('data.json') 
-                .then(response => response.json())
-                .then(data => {
-                    let table = `<table>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Title</th>
-                                        <th>Author</th>
-                                        <th>Year</th>
-                                        <th>Genre</th>
-                                        <th>Available</th>
-                                    </tr>`;
-                    data.forEach(book => {
-                        table += `<tr>
-                                    <td>${book.id}</td>
-                                    <td>${book.title}</td>
-                                    <td>${book.author}</td>
-                                    <td>${book.year}</td>
-                                    <td>${book.genre}</td>
-                                    <td>${book.available ? 'Yes' : 'No'}</td>
-                                  </tr>`;
-                    });
-                    table += `</table>`;
-                    document.getElementById('books-container').innerHTML = table;
+        const apiKey = '63b4fc19d6ce445796ef4aea1eba0478'; // Your API Key
+
+        fetchNewsButton.addEventListener('click', async () => {
+            const category = categoryFilter.value;
+            const url = `https://newsapi.org/v2/top-headlines?country=us${category ? `&category=${category}` : ''}&apiKey=${apiKey}`;
+
+            await fetch(url)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`Error fetching news: ${response.status}`);
+                    }
+                    return response.json();
                 })
-                .catch(error => console.error('Error fetching data:', error));
+                .then((data) => {
+                    newsList = data.articles;
+                    currentPage = 1; // Reset to the first page on new fetch
+                    displayNews();
+                })
+                .catch((error) => {
+                    console.error("Error fetching data:", error);
+                });
         });
 
-        
-        document.getElementById('search').addEventListener('input', function () {
-            if (!isSignedUp) return;
+        function displayNews() {
+            mainContainer.innerHTML = "";  // Clear the container
+
+            let filteredNews = newsList.filter(news =>
+                news.title.toLowerCase().includes(searchInput.value.toLowerCase()) ||
+                news.description.toLowerCase().includes(searchInput.value.toLowerCase())
+            );
+
+            let sortedNews = filteredNews.sort((a, b) => {
+                return sortDirection.value === 'asc' ? new Date(a.publishedAt) - new Date(b.publishedAt) : new Date(b.publishedAt) - new Date(a.publishedAt);
+            });
+
+            let start = (currentPage - 1) * newsPerPage;
+            let end = start + newsPerPage;
+            let paginatedNews = sortedNews.slice(start, end);
+
+            if (paginatedNews.length === 0) {
+                mainContainer.innerHTML = "<p>No news available.</p>";
+            }
+
+            paginatedNews.forEach(news => {
+                let card = document.createElement('div');
+                card.classList.add('news-card');
+
+                let title = document.createElement('h3');
+                title.textContent = news.title;
+                card.appendChild(title);
+
+                let details = document.createElement('div');
+                details.classList.add('news-details');
+                details.innerHTML = `
+            <p>${news.description || 'No description available.'}</p>
+            <p><a href="${news.url}" target="_blank">Read more</a></p>
+        `;
+                card.appendChild(details);
+
+                card.addEventListener('click', () => {
+                    card.classList.toggle('active');
+                });
+
+                mainContainer.appendChild(card);
+            });
+
+            updatePaginationControls(filteredNews.length);
+        }
+
+        function updatePaginationControls(totalNews) {
+            prevPageButton.disabled = currentPage === 1;
+            nextPageButton.disabled = (currentPage * newsPerPage) >= totalNews;
+            pageInfo.textContent = `Page ${currentPage}`;
+        }
+
+        prevPageButton.addEventListener('click', () => {
+            if (currentPage > 1) {
+                currentPage--;
+                displayNews();
+            }
         });
 
-        document.getElementById('sorting').addEventListener('change', function () {
-            if (!isSignedUp) return;
+        nextPageButton.addEventListener('click', () => {
+            let filteredNews = newsList.filter(news =>
+                news.title.toLowerCase().includes(searchInput.value.toLowerCase()) ||
+                news.description.toLowerCase().includes(searchInput.value.toLowerCase())
+            );
+
+            if ((currentPage * newsPerPage) < filteredNews.length) {
+                currentPage++;
+                displayNews();
+            }
         });
+
+        searchInput.addEventListener('input', () => {
+            currentPage = 1; // Reset to the first page on search
+            displayNews();
+        });
+
+        categoryFilter.addEventListener('change', () => {
+            fetchNewsButton.click(); // Re-fetch news when category changes
+        });
+
+        sortDirection.addEventListener('change', () => {
+            displayNews(); // Re-display news when sort direction changes
+        });
+
     </script>
 </body>
+
 </html>

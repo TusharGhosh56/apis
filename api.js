@@ -1,107 +1,151 @@
-let booklist = []
-let currentPage = 1
-let itemsPerPage = 5
+let newsList = [];
+        let currentPage = 1;
+        const newsPerPage = 5;
 
-const fetchbookss = document.querySelector('#fetchbooks')
-let mainContainer = document.querySelector('#books-container')
-let paginationcontainer = document.querySelector('#pagination-container')
-let searchingInput = document.querySelector('#search')
-let sortingItem = document.querySelector('#sorting')
+        let mainContainer = document.querySelector('#news-container');
+        let searchInput = document.querySelector('#search');
+        let fetchNewsButton = document.querySelector('#fetchnews');
+        let loginButton = document.querySelector('#login');
+        let errorMessage = document.querySelector('#error-message');
+        let successMessage = document.querySelector('#success-message');
+        let prevPageButton = document.querySelector('#prevPage');
+        let nextPageButton = document.querySelector('#nextPage');
+        let pageInfo = document.querySelector('#pageInfo');
+        let categoryFilter = document.querySelector('#categoryFilter');
+        let sortDirection = document.querySelector('#sortDirection');  // Fix this variable
 
-fetchbookss.addEventListener('click', async () => {
-    await fetch('https://api.nytimes.com/svc/books/v3/lists/2019-01-20/hardcover-fiction.json?api-key=QTd4H7HDVpLKhqIqtV42NmAthrt8ub4b')
-        .then((response) => response.json())
-        .then((data) => booklist = data.results.books)
-        .catch((error) => console.error(error))
-    displayBooks()
-})
+        // Regular expressions for validation
+        const usernameRegex = /^[A-Za-z]+$/;
+        const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
 
-function displayBooks() {
-    mainContainer.innerHTML = ""
+        loginButton.addEventListener('click', () => {
+            const username = document.querySelector('#username').value;
+            const password = document.querySelector('#password').value;
 
-    let filteredBooks = booklist.filter(book => book.title.toLowerCase().includes(searchingInput.value.toLowerCase()))
+            if (usernameRegex.test(username) && passwordRegex.test(password)) {
+                errorMessage.textContent = '';
+                successMessage.textContent = 'Login successful!';
+                enableSearch();
+            } else {
+                successMessage.textContent = '';
+                errorMessage.textContent = 'Invalid login. Please try again.';
+                disableSearch();
+            }
+        });
 
-    
-    if (sortingItem.value == 'asc') {
-        filteredBooks.sort((a, b) => a.title.localeCompare(b.title))
-    } else {
-        filteredBooks.sort((a, b) => b.title.localeCompare(a.title))
-    }
+        function enableSearch() {
+            fetchNewsButton.disabled = false;
+            searchInput.disabled = false;
+        }
 
-    
-    let paginatedBooks = filteredBooks.slice((currentPage - 1) * itemsPerPage, (currentPage * itemsPerPage))
+        function disableSearch() {
+            fetchNewsButton.disabled = true;
+            searchInput.disabled = true;
+        }
 
-    
-    let table = document.createElement('table')
-    table.border = "1"
-    table.cellPadding = "10"
-    table.cellSpacing = "0"
+        const apiKey = '63b4fc19d6ce445796ef4aea1eba0478'; // Your API Key
 
-    
-    let thead = document.createElement('thead')
-    thead.innerHTML = `
-        <tr>
-            <th>Book Image</th>
-            <th>Title</th>
-            <th>Description</th>
-        </tr>
-    `
-    table.appendChild(thead)
+        fetchNewsButton.addEventListener('click', async () => {
+            const category = categoryFilter.value;
+            const url = `https://newsapi.org/v2/top-headlines?country=us${category ? `&category=${category}` : ''}&apiKey=${apiKey}`;
 
-    
-    let tbody = document.createElement('tbody')
+            await fetch(url)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`Error fetching news: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then((data) => {
+                    newsList = data.articles;
+                    currentPage = 1; // Reset to the first page on new fetch
+                    displayNews();
+                })
+                .catch((error) => {
+                    console.error("Error fetching data:", error);
+                });
+        });
 
-    paginatedBooks.forEach(book => {
-        let row = document.createElement('tr')
+        function displayNews() {
+            mainContainer.innerHTML = "";  // Clear the container
 
-        
-        let imgCell = document.createElement('td')
-        let bookimg = document.createElement('img')
-        bookimg.src = book.book_image
-        bookimg.height = 100
-        bookimg.width = 100
-        imgCell.appendChild(bookimg)
-        row.appendChild(imgCell)
+            let filteredNews = newsList.filter(news =>
+                news.title.toLowerCase().includes(searchInput.value.toLowerCase()) ||
+                news.description.toLowerCase().includes(searchInput.value.toLowerCase())
+            );
 
-        
-        let titleCell = document.createElement('td')
-        titleCell.textContent = book.title
-        row.appendChild(titleCell)
+            let sortedNews = filteredNews.sort((a, b) => {
+                return sortDirection.value === 'asc' ? new Date(a.publishedAt) - new Date(b.publishedAt) : new Date(b.publishedAt) - new Date(a.publishedAt);
+            });
 
+            let start = (currentPage - 1) * newsPerPage;
+            let end = start + newsPerPage;
+            let paginatedNews = sortedNews.slice(start, end);
 
-        let descCell = document.createElement('td')
-        descCell.textContent = book.description
-        row.appendChild(descCell)
+            if (paginatedNews.length === 0) {
+                mainContainer.innerHTML = "<p>No news available.</p>";
+            }
 
-        tbody.appendChild(row)
-    })
+            paginatedNews.forEach(news => {
+                let card = document.createElement('div');
+                card.classList.add('news-card');
 
-    table.appendChild(tbody)
-    mainContainer.appendChild(table)
+                let title = document.createElement('h3');
+                title.textContent = news.title;
+                card.appendChild(title);
 
-    displayPagination(filteredBooks.length)
-}
+                let details = document.createElement('div');
+                details.classList.add('news-details');
+                details.innerHTML = `
+            <p>${news.description || 'No description available.'}</p>
+            <p><a href="${news.url}" target="_blank">Read more</a></p>
+        `;
+                card.appendChild(details);
 
-searchingInput.addEventListener('input', () => {
-    currentPage = 1
-    displayBooks()
-})
+                card.addEventListener('click', () => {
+                    card.classList.toggle('active');
+                });
 
-sortingItem.addEventListener('change', () => {
-    displayBooks()
-})
+                mainContainer.appendChild(card);
+            });
 
-function displayPagination(totalItems) {
-    const totalPages = Math.ceil(totalItems / itemsPerPage)
-    paginationcontainer.innerHTML = ""
+            updatePaginationControls(filteredNews.length);
+        }
 
-    for (let i = 1; i <= totalPages; i++) {
-        let pageButton = document.createElement('button')
-        pageButton.textContent = i
-        pageButton.addEventListener('click', () => {
-            currentPage = i
-            displayBooks()
-        })
-        paginationcontainer.appendChild(pageButton)
-    }
-}
+        function updatePaginationControls(totalNews) {
+            prevPageButton.disabled = currentPage === 1;
+            nextPageButton.disabled = (currentPage * newsPerPage) >= totalNews;
+            pageInfo.textContent = `Page ${currentPage}`;
+        }
+
+        prevPageButton.addEventListener('click', () => {
+            if (currentPage > 1) {
+                currentPage--;
+                displayNews();
+            }
+        });
+
+        nextPageButton.addEventListener('click', () => {
+            let filteredNews = newsList.filter(news =>
+                news.title.toLowerCase().includes(searchInput.value.toLowerCase()) ||
+                news.description.toLowerCase().includes(searchInput.value.toLowerCase())
+            );
+
+            if ((currentPage * newsPerPage) < filteredNews.length) {
+                currentPage++;
+                displayNews();
+            }
+        });
+
+        searchInput.addEventListener('input', () => {
+            currentPage = 1; // Reset to the first page on search
+            displayNews();
+        });
+
+        categoryFilter.addEventListener('change', () => {
+            fetchNewsButton.click(); // Re-fetch news when category changes
+        });
+
+        sortDirection.addEventListener('change', () => {
+            displayNews(); // Re-display news when sort direction changes
+        });

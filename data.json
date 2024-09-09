@@ -1,50 +1,79 @@
 [
   {
-    "id": 1,
-    "title": "To Kill a Mockingbird",
-    "author": "Harper Lee",
-    "year": 1960,
-    "genre": "Fiction",
-    "available": true
+      "id": "bbc-news",
+      "name": "BBC News",
+      "author": "Jane",
+      "title": "Another Important Event",
+      "description": "Details about another important event happening around the world.",
+      "url": "https://apnews.com/article/venice-film-festival-awards-81st-b8cfca5a2170e5288b9ce7b3e03e91ef",
+      "urlToImage": "https://cdn.bbc.com/news/images/important-event.jpg",
+      "publishedAt": "2024-09-08T10:20:00Z",
+      "content": "This is the full article content for the important event happening globally."
   },
   {
-    "id": 2,
-    "title": "1984",
-    "author": "George Orwell",
-    "year": 1949,
-    "genre": "Dystopian",
-    "available": false
+      "id": "cnn-news",
+      "name": "CNN",
+      "author": "John",
+      "title": "U.S. believes Iran transferred short-range ballistic missiles to Russia",
+      "description": "A major development has occurred that could impact many.",
+      "url": "https://www.cnbc.com/2024/09/07/us-says-iran-gave-russia-short-range-ballistic-missiles-ap-sources-.html",
+      "urlToImage": "https://image.cnbcfm.com/api/v1/image/108026157-1724782757252-gettyimages-2167975100-AA_27082024_1835218.jpeg?v=1724782921&w=1480&h=833&ffmt=webp&vtcrop=y",
+      "publishedAt": "2024-09-08T12:45:00Z",
+      "content": "Full details about the major development that has just happened."
   },
   {
-    "id": 3,
-    "title": "Pride and Prejudice",
-    "author": "Jane Austen",
-    "year": 1813,
-    "genre": "Romance",
-    "available": true
+      "id": "nytimes",
+      "name": "The New York Times",
+      "author": "Emily Johnson",
+      "title": "Insights into the Latest Trends",
+      "description": "Explore the latest trends that are shaping the world.",
+      "url": "https://www.nytimes.com/2024/09/08/latest-trends",
+      "urlToImage": "https://cdn.nytimes.com/news/images/latest-trends.jpg",
+      "publishedAt": "2024-09-08T14:30:00Z",
+      "content": "An in-depth analysis of the trends influencing various sectors today."
   },
   {
-    "id": 4,
-    "title": "The Catcher in the Rye",
-    "author": "J.D. Salinger",
-    "year": 1951,
-    "genre": "Fiction",
-    "available": false
+      "id": "al-jazeera",
+      "name": "Al Jazeera",
+      "author": "Fatima Ali",
+      "title": "Global Perspectives on Recent Events",
+      "description": "Different global perspectives on the recent significant events.",
+      "url": "https://www.aljazeera.com/news/2024/09/global-perspectives",
+      "urlToImage": "https://cdn.aljazeera.com/news/images/global-perspectives.jpg",
+      "publishedAt": "2024-09-08T16:00:00Z",
+      "content": "A roundup of global opinions and perspectives on the latest events."
   },
   {
-    "id": 5,
-    "title": "The Great Gatsby",
-    "author": "F. Scott Fitzgerald",
-    "year": 1925,
-    "genre": "Tragedy",
-    "available": true
+      "id": "reuters",
+      "name": "Reuters",
+      "author": "Michael Brown",
+      "title": "Economic Forecast for the Coming Year",
+      "description": "An overview of the economic forecasts for the upcoming year.",
+      "url": "https://www.reuters.com/2024/09/economic-forecast",
+      "urlToImage": "https://cdn.reuters.com/news/images/economic-forecast.jpg",
+      "publishedAt": "2024-09-08T18:15:00Z",
+      "content": "Detailed insights into the economic predictions and what they mean for businesses."
   },
   {
-    "id": 6,
-    "title": "Moby-Dick",
-    "author": "Herman Melville",
-    "year": 1851,
-    "genre": "Adventure",
-    "available": true
+      "id": "the-guardian",
+      "name": "The Guardian",
+      "author": "Sarah Davis",
+      "title": "Environmental Changes and Their Impact",
+      "description": "How recent environmental changes are affecting our planet.",
+      "url": "https://www.theguardian.com/environment/2024/09/environmental-changes",
+      "urlToImage": "https://cdn.theguardian.com/news/images/environmental-changes.jpg",
+      "publishedAt": "2024-09-08T20:00:00Z",
+      "content": "An exploration of the environmental changes occurring and their global effects."
+  },
+  {
+      "id": "usa-today",
+      "name": "USA Today",
+      "author": "Laura Green",
+      "title": "Health Innovations to Watch",
+      "description": "New health innovations that are set to transform healthcare.",
+      "url": "https://www.usatoday.com/2024/09/health-innovations",
+      "urlToImage": "https://cdn.usatoday.com/news/images/health-innovations.jpg",
+      "publishedAt": "2024-09-08T22:10:00Z",
+      "content": "A look at the latest advancements in health technology and their potential impact."
   }
 ]
