@@ -21,23 +21,23 @@ function displayBooks() {
 
     let filteredBooks = booklist.filter(book => book.title.toLowerCase().includes(searchingInput.value.toLowerCase()))
 
-    // Sorting logic
+    
     if (sortingItem.value == 'asc') {
         filteredBooks.sort((a, b) => a.title.localeCompare(b.title))
     } else {
         filteredBooks.sort((a, b) => b.title.localeCompare(a.title))
     }
 
-    // Pagination logic
+    
     let paginatedBooks = filteredBooks.slice((currentPage - 1) * itemsPerPage, (currentPage * itemsPerPage))
 
-    // Create table element
+    
     let table = document.createElement('table')
     table.border = "1"
     table.cellPadding = "10"
     table.cellSpacing = "0"
 
-    // Create table header
+    
     let thead = document.createElement('thead')
     thead.innerHTML = `
         <tr>
@@ -48,13 +48,13 @@ function displayBooks() {
     `
     table.appendChild(thead)
 
-    // Create table body and populate with paginated books
+    
     let tbody = document.createElement('tbody')
 
     paginatedBooks.forEach(book => {
         let row = document.createElement('tr')
 
-        // Book image
+        
         let imgCell = document.createElement('td')
         let bookimg = document.createElement('img')
         bookimg.src = book.book_image
@@ -63,12 +63,12 @@ function displayBooks() {
         imgCell.appendChild(bookimg)
         row.appendChild(imgCell)
 
-        // Title
+        
         let titleCell = document.createElement('td')
         titleCell.textContent = book.title
         row.appendChild(titleCell)
 
-        // Description
+
         let descCell = document.createElement('td')
         descCell.textContent = book.description
         row.appendChild(descCell)

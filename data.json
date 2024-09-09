@@ -1,51 +1,50 @@
 [
-    {
-      "id": 1,
-      "title": "To Kill a Mockingbird",
-      "author": "Harper Lee",
-      "year": 1960,
-      "genre": "Fiction",
-      "available": true
-    },
-    {
-      "id": 2,
-      "title": "1984",
-      "author": "George Orwell",
-      "year": 1949,
-      "genre": "Dystopian",
-      "available": false
-    },
-    {
-      "id": 3,
-      "title": "Pride and Prejudice",
-      "author": "Jane Austen",
-      "year": 1813,
-      "genre": "Romance",
-      "available": true
-    },
-    {
-      "id": 4,
-      "title": "The Catcher in the Rye",
-      "author": "J.D. Salinger",
-      "year": 1951,
-      "genre": "Fiction",
-      "available": false
-    },
-    {
-      "id": 5,
-      "title": "The Great Gatsby",
-      "author": "F. Scott Fitzgerald",
-      "year": 1925,
-      "genre": "Tragedy",
-      "available": true
-    },
-    {
-      "id": 6,
-      "title": "Moby-Dick",
-      "author": "Herman Melville",
-      "year": 1851,
-      "genre": "Adventure",
-      "available": true
-    }
-  ]
-  
+  {
+    "id": 1,
+    "title": "To Kill a Mockingbird",
+    "author": "Harper Lee",
+    "year": 1960,
+    "genre": "Fiction",
+    "available": true
+  },
+  {
+    "id": 2,
+    "title": "1984",
+    "author": "George Orwell",
+    "year": 1949,
+    "genre": "Dystopian",
+    "available": false
+  },
+  {
+    "id": 3,
+    "title": "Pride and Prejudice",
+    "author": "Jane Austen",
+    "year": 1813,
+    "genre": "Romance",
+    "available": true
+  },
+  {
+    "id": 4,
+    "title": "The Catcher in the Rye",
+    "author": "J.D. Salinger",
+    "year": 1951,
+    "genre": "Fiction",
+    "available": false
+  },
+  {
+    "id": 5,
+    "title": "The Great Gatsby",
+    "author": "F. Scott Fitzgerald",
+    "year": 1925,
+    "genre": "Tragedy",
+    "available": true
+  },
+  {
+    "id": 6,
+    "title": "Moby-Dick",
+    "author": "Herman Melville",
+    "year": 1851,
+    "genre": "Adventure",
+    "available": true
+  }
+]

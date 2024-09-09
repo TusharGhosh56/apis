@@ -5,26 +5,139 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Fetch JSON from GitHub</title>
   <style>
-    body {
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
       font-family: Arial, sans-serif;
-      padding: 20px;
     }
-    .json-data {
+
+    
+    body {
+      display: flex;
+      flex-direction: column;
       background-color: #f4f4f4;
+    }
+
+    
+    nav {
+      background-color: #333;
+      color: #fff;
       padding: 10px;
+      text-align: center;
+    }
+
+    nav ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    nav ul li {
+      display: inline;
+      margin: 0 15px;
+    }
+
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    
+    
+    .container {
+      padding: 20px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    
+    .signup-form {
+      background-color: #fff;
+      padding: 20px;
       border: 1px solid #ddd;
+      margin-top: 20px;
+    }
+
+    .signup-form input,
+    .signup-form button {
+      display: block;
+      width: 100%;
+      margin-bottom: 15px;
+      padding: 10px;
+      font-size: 16px;
+    }
+
+    .signup-form button {
+      background-color: #333;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+    }
+
+    
+    #fetchbooks,
+    #search,
+    #sorting {
+      margin: 10px;
+      padding: 10px;
+      font-size: 16px;
+    }
+
+    #books-container table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    #books-container th,
+    #books-container td {
+      border: 1px solid #ddd;
+      padding: 8px;
+    }
+
+    #books-container th {
+      background-color: #f2f2f2;
+      text-align: center;
+    }
+
+    #books-container td {
+      text-align: left;
+    }
+
+    footer {
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      padding: 10px;
+      position: relative;
+      width: 100%;
+      bottom: 0;
     }
   </style>
 </head>
 <body>
-  <h1>Data from JSON File</h1>
-  <div id="json-output" class="json-data">Loading data...</div>
+  <nav>
+    <ul>
+      <li><a href="webcia3.html">Home</a></li>
+      <li><a href="#">api-fetch</a></li>
+    </ul>
+  </nav>
+
+
+  <div class="container">
+    <h1>Data from JSON File</h1>
+    <div id="json-output" class="json-data">Loading data...</div>
+  </div>
+
+  <footer>
+    <p>&copy; 2024 Library Management. All Rights Reserved.</p>
+  </footer>
 
   <script>
-    // URL to fetch the JSON file from GitHub
-    const url = 'https://raw.githubusercontent.com/<username>/xyz/main/data.json';
+    const url = 'https://raw.githubusercontent.com/TusharGhosh56/apis/main/data.json';
 
-    // Fetch JSON data from the URL
+
     fetch(url)
       .then(response => {
         if (!response.ok) {
@@ -33,7 +146,6 @@
         return response.json();
       })
       .then(data => {
-        // Display JSON data in the HTML
         const outputDiv = document.getElementById('json-output');
         outputDiv.innerHTML = '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
       })

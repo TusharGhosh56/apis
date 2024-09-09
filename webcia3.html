@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Library Books</title>
     <style>
-        /* Global Styles */
+        
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -14,7 +14,7 @@
             background-color: #f4f4f4;
         }
 
-        /* Navbar Styling */
+        
         nav {
             background-color: #333;
             color: #fff;
@@ -38,7 +38,7 @@
             font-weight: bold;
         }
 
-        /* Hero Section Styling */
+        
         .hero {
             background-image: url('pngtree-beautiful-girl-reading-books-image_13372038.jpg');
             background-size: cover;
@@ -60,14 +60,14 @@
             font-size: 24px;
         }
 
-        /* Main Content Styling */
+        
         .container {
             padding: 20px;
             max-width: 1000px;
             margin: 0 auto;
         }
 
-        /* Sign-Up Form Styling */
+
         .signup-form {
             background-color: #fff;
             padding: 20px;
@@ -90,7 +90,7 @@
             cursor: pointer;
         }
 
-        /* Fetch Button and Search Bar */
+        
         #fetchbooks, #search, #sorting {
             margin: 10px;
             padding: 10px;
@@ -117,7 +117,7 @@
             text-align: left;
         }
 
-        /* Footer Styling */
+        
         footer {
             background-color: #333;
             color: #fff;
@@ -130,17 +130,14 @@
     </style>
 </head>
 <body>
-
-    <!-- Navbar -->
     <nav>
         <ul>
             <li><a href="#">Home</a></li>
-            <li><a href="#">Books</a></li>
-            <li><a href="#">Contact</a></li>
+            <li><a href="json.html">api-fetch</a></li>
         </ul>
     </nav>
 
-    <!-- Hero Section -->
+    
     <div class="hero">
         <div>
             <h1>Welcome to Our Library</h1>
@@ -148,7 +145,7 @@
         </div>
     </div>
 
-    <!-- Main Container -->
+    
     <div class="container">
         <button id="fetchbooks" disabled>Fetch Books</button>
         <input type="text" placeholder="Search book name" id="search" disabled>
@@ -159,7 +156,7 @@
         <div id="books-container"></div>
         <div id="pagination-container"></div>
 
-        <!-- Sign-Up Form -->
+        
         <div class="signup-form">
             <h2>Sign Up</h2>
             <form id="signupForm">
@@ -173,7 +170,7 @@
         </div>
     </div>
 
-    <!-- Footer -->
+    
     <footer>
         <p>&copy; 2024 Library Management. All Rights Reserved.</p>
     </footer>
@@ -183,7 +180,7 @@
         let isSignedUp = false;
 
         document.getElementById('signupForm').addEventListener('submit', function (e) {
-            e.preventDefault(); // Prevent form from submitting normally
+            e.preventDefault(); 
 
             const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
@@ -191,7 +188,7 @@
             const confirmPassword = document.getElementById('confirmPassword').value;
             const message = document.getElementById('signupMessage');
 
-            // Basic Validation
+            
             if (name.length < 3) {
                 message.textContent = "Name must be at least 3 characters long.";
                 return;
@@ -212,7 +209,7 @@
                 return;
             }
 
-            // If validation is successful, enable fetch, search, and sorting
+
             message.style.color = "green";
             message.textContent = "Sign-up successful!";
             enableSearchAndFetch();
@@ -230,10 +227,10 @@
             document.getElementById('sorting').disabled = false;
         }
 
-        // Fetch books only if signed up
+        
         document.getElementById('fetchbooks').addEventListener('click', function () {
             if (!isSignedUp) return;
-            fetch('data.json') // This should match the name of the JSON file you uploaded
+            fetch('data.json') 
                 .then(response => response.json())
                 .then(data => {
                     let table = `<table>
@@ -261,15 +258,13 @@
                 .catch(error => console.error('Error fetching data:', error));
         });
 
-        // Handle search and sort logic only if signed up
+        
         document.getElementById('search').addEventListener('input', function () {
             if (!isSignedUp) return;
-            // Handle search functionality
         });
 
         document.getElementById('sorting').addEventListener('change', function () {
             if (!isSignedUp) return;
-            // Handle sorting functionality
         });
     </script>
 </body>
