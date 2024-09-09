@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fetch JSON from GitHub</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    .json-data {
+      background-color: #f4f4f4;
+      padding: 10px;
+      border: 1px solid #ddd;
+    }
+  </style>
+</head>
+<body>
+  <h1>Data from JSON File</h1>
+  <div id="json-output" class="json-data">Loading data...</div>
+
+  <script>
+    // URL to fetch the JSON file from GitHub
+    const url = 'https://raw.githubusercontent.com/<username>/xyz/main/data.json';
+
+    // Fetch JSON data from the URL
+    fetch(url)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => {
+        // Display JSON data in the HTML
+        const outputDiv = document.getElementById('json-output');
+        outputDiv.innerHTML = '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+      })
+      .catch(error => {
+        const outputDiv = document.getElementById('json-output');
+        outputDiv.innerHTML = 'Error fetching data: ' + error.message;
+      });
+  </script>
+</body>
+</html>

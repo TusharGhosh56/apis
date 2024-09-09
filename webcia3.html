@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Books</title>
+    <style>
+        /* Global Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #f4f4f4;
+        }
+
+        /* Navbar Styling */
+        nav {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        nav ul li {
+            display: inline;
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        /* Hero Section Styling */
+        .hero {
+            background-image: url('pngtree-beautiful-girl-reading-books-image_13372038.jpg');
+            background-size: cover;
+            background-position: center;
+            height: 500px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin: 0;
+        }
+
+        .hero p {
+            font-size: 24px;
+        }
+
+        /* Main Content Styling */
+        .container {
+            padding: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* Sign-Up Form Styling */
+        .signup-form {
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #ddd;
+            margin-top: 20px;
+        }
+
+        .signup-form input, .signup-form button {
+            display: block;
+            width: 100%;
+            margin-bottom: 15px;
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        .signup-form button {
+            background-color: #333;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* Fetch Button and Search Bar */
+        #fetchbooks, #search, #sorting {
+            margin: 10px;
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        #books-container table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        #books-container th, #books-container td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        #books-container th {
+            background-color: #f2f2f2;
+            text-align: center;
+        }
+
+        #books-container td {
+            text-align: left;
+        }
+
+        /* Footer Styling */
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+            position: relative;
+            width: 100%;
+            bottom: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Books</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <div>
+            <h1>Welcome to Our Library</h1>
+            <p>Discover a world of books</p>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <button id="fetchbooks" disabled>Fetch Books</button>
+        <input type="text" placeholder="Search book name" id="search" disabled>
+        <select id="sorting" disabled>
+            <option value="asc">Name Ascending</option>
+            <option value="desc">Name Descending</option>
+        </select>
+        <div id="books-container"></div>
+        <div id="pagination-container"></div>
+
+        <!-- Sign-Up Form -->
+        <div class="signup-form">
+            <h2>Sign Up</h2>
+            <form id="signupForm">
+                <input type="text" id="name" placeholder="Full Name" required>
+                <input type="email" id="email" placeholder="Email Address" required>
+                <input type="password" id="password" placeholder="Password" required>
+                <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+                <button type="submit">Sign Up</button>
+            </form>
+            <div id="signupMessage" style="color:red;"></div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Library Management. All Rights Reserved.</p>
+    </footer>
+
+    <script src="api.js"></script>
+    <script>
+        let isSignedUp = false;
+
+        document.getElementById('signupForm').addEventListener('submit', function (e) {
+            e.preventDefault(); // Prevent form from submitting normally
+
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const message = document.getElementById('signupMessage');
+
+            // Basic Validation
+            if (name.length < 3) {
+                message.textContent = "Name must be at least 3 characters long.";
+                return;
+            }
+
+            if (!validateEmail(email)) {
+                message.textContent = "Please enter a valid email address.";
+                return;
+            }
+
+            if (password.length < 6) {
+                message.textContent = "Password must be at least 6 characters long.";
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                message.textContent = "Passwords do not match.";
+                return;
+            }
+
+            // If validation is successful, enable fetch, search, and sorting
+            message.style.color = "green";
+            message.textContent = "Sign-up successful!";
+            enableSearchAndFetch();
+        });
+
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(String(email).toLowerCase());
+        }
+
+        function enableSearchAndFetch() {
+            isSignedUp = true;
+            document.getElementById('fetchbooks').disabled = false;
+            document.getElementById('search').disabled = false;
+            document.getElementById('sorting').disabled = false;
+        }
+
+        // Fetch books only if signed up
+        document.getElementById('fetchbooks').addEventListener('click', function () {
+            if (!isSignedUp) return;
+            fetch('data.json') // This should match the name of the JSON file you uploaded
+                .then(response => response.json())
+                .then(data => {
+                    let table = `<table>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Title</th>
+                                        <th>Author</th>
+                                        <th>Year</th>
+                                        <th>Genre</th>
+                                        <th>Available</th>
+                                    </tr>`;
+                    data.forEach(book => {
+                        table += `<tr>
+                                    <td>${book.id}</td>
+                                    <td>${book.title}</td>
+                                    <td>${book.author}</td>
+                                    <td>${book.year}</td>
+                                    <td>${book.genre}</td>
+                                    <td>${book.available ? 'Yes' : 'No'}</td>
+                                  </tr>`;
+                    });
+                    table += `</table>`;
+                    document.getElementById('books-container').innerHTML = table;
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        });
+
+        // Handle search and sort logic only if signed up
+        document.getElementById('search').addEventListener('input', function () {
+            if (!isSignedUp) return;
+            // Handle search functionality
+        });
+
+        document.getElementById('sorting').addEventListener('change', function () {
+            if (!isSignedUp) return;
+            // Handle sorting functionality
+        });
+    </script>
+</body>
+</html>
