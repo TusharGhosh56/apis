@@ -6,8 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fetch News from API</title>
     <style>
-        html,
-        body {
+        html, body {
             height: 100%;
             margin: 0;
             padding: 0;
@@ -77,6 +76,7 @@
         .news-image {
             max-width: 100%;
             margin-bottom: 15px;
+            border-radius: 5px;
         }
 
         footer {
@@ -130,7 +130,7 @@
                     outputHTML += `
                         <div class="news-card">
                             <div class="news-title">${article.title}</div>
-                            <img src="${article.urlToImage}" alt="${article.title}" class="news-image">
+                            <img src="${article.urlToImage}" alt="${article.title}" class="news-image" onerror="this.src='https://via.placeholder.com/400';">
                             <div class="news-details">${article.description}</div>
                             <div class="news-author"><strong>Author:</strong> ${article.author || 'N/A'}</div>
                             <div class="news-date"><strong>Published Date:</strong> ${new Date(article.publishedAt).toLocaleDateString()}</div>
