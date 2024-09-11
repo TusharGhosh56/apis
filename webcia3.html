@@ -24,7 +24,7 @@
         }
 
         .container {
-            color:black;
+            color: black;
             flex: 1;
             max-width: 1200px;
             margin: 30px auto;
@@ -118,6 +118,10 @@
 
         .news-card.active .news-details {
             display: block;
+            margin-top: 10px;
+            color: #555;
+            font-size: 18px;
+            line-height: 1.6;
         }
 
         footer p {
@@ -148,10 +152,12 @@
             margin: 0 10px;
             font-size: 16px;
         }
-        .container div{
-                display: block;
-                font-size:30%;
-            }
+
+        .container div {
+            display: block;
+            font-size: 30%;
+        }
+
         select {
             padding: 10px;
             border-radius: 5px;
@@ -178,7 +184,7 @@
             <li><a href="json.html">git-fetch</a></li>
         </ul>
     </nav>
-    
+
     <div class="container">
         <h1>Breaking News For Today!</h1>
         <button id="fetchnews">Fetch News</button>
@@ -211,7 +217,7 @@
         let filteredNews = [];
         let currentPage = 1;
         const newsPerPage = 5;
-    
+
         let mainContainer = document.querySelector('#news-container');
         let searchInput = document.querySelector('#search');
         let fetchNewsButton = document.querySelector('#fetchnews');
@@ -220,13 +226,13 @@
         let pageInfo = document.querySelector('#pageInfo');
         let categoryFilter = document.querySelector('#categoryFilter');
         let sortDirection = document.querySelector('#sortDirection');
-    
+
         const apiKey = '63b4fc19d6ce445796ef4aea1eba0478'; // Your API Key
-    
+
         fetchNewsButton.addEventListener('click', async () => {
             const category = categoryFilter.value;
             const url = `https://newsapi.org/v2/top-headlines?country=us${category ? `&category=${category}` : ''}&apiKey=${apiKey}`;
-    
+
             await fetch(url)
                 .then(response => {
                     if (!response.ok) {
@@ -244,108 +250,108 @@
                     console.error("Error fetching data:", error);
                 });
         });
-    
+
         searchInput.addEventListener('input', () => {
             const searchTerm = searchInput.value.toLowerCase().trim();
-    
+
             // Filter news based on search term - only show exact matching titles or descriptions
             filteredNews = newsList.filter(news =>
                 news.title.toLowerCase().includes(searchTerm) ||
                 news.description?.toLowerCase().includes(searchTerm)
             );
-    
+
             currentPage = 1; // Reset to the first page after search
             displayNews();  // Re-display news based on the search input
         });
-    
+
         function displayNews() {
-        mainContainer.innerHTML = "";  // Clear the container
+            mainContainer.innerHTML = "";  // Clear the container
 
-        // Sort the filtered news alphabetically by title
-        let sortedNews = filteredNews.sort((a, b) => {
-            const titleA = a.title.toLowerCase();
-            const titleB = b.title.toLowerCase();
-            if (sortDirection.value === 'asc') {
-                return titleA.localeCompare(titleB); // Ascending order
-            } else {
-                return titleB.localeCompare(titleA); // Descending order
-            }
-        });
+            // Sort the filtered news alphabetically by title
+            let sortedNews = filteredNews.sort((a, b) => {
+                const titleA = a.title.toLowerCase();
+                const titleB = b.title.toLowerCase();
+                if (sortDirection.value === 'asc') {
+                    return titleA.localeCompare(titleB); // Ascending order
+                } else {
+                    return titleB.localeCompare(titleA); // Descending order
+                }
+            });
 
-        // Pagination logic
-        let start = (currentPage - 1) * newsPerPage;
-        let end = start + newsPerPage;
-        let paginatedNews = sortedNews.slice(start, end);
+            // Pagination logic
+            let start = (currentPage - 1) * newsPerPage;
+            let end = start + newsPerPage;
+            let paginatedNews = sortedNews.slice(start, end);
 
-        // If no news matches the search, display message
-        if (paginatedNews.length === 0) {
-            mainContainer.innerHTML = "<p>No matching news found.</p>";
-            updatePaginationControls(0);
-            return;
-        }
-
-        // Render each news card
-        paginatedNews.forEach(news => {
-            let card = document.createElement('div');
-            card.classList.add('news-card');
-
-            let title = document.createElement('h3');
-            title.textContent = news.title;
-            card.appendChild(title);
-
-            // Add image if available
-            if (news.urlToImage) {
-                let image = document.createElement('img');
-                image.src = news.urlToImage;
-                image.alt = "News Image";
-                image.style.maxWidth = "100%";
-                image.style.borderRadius = "10px";
-                card.appendChild(image);
+            // If no news matches the search, display message
+            if (paginatedNews.length === 0) {
+                mainContainer.innerHTML = "<p>No matching news found.</p>";
+                updatePaginationControls(0);
+                return;
             }
 
-            let details = document.createElement('div');
-            details.classList.add('news-details');
-            details.innerHTML = `
+            // Render each news card
+            paginatedNews.forEach(news => {
+                let card = document.createElement('div');
+                card.classList.add('news-card');
+
+                let title = document.createElement('h3');
+                title.textContent = news.title;
+                card.appendChild(title);
+
+                // Add image if available
+                if (news.urlToImage) {
+                    let image = document.createElement('img');
+                    image.src = news.urlToImage;
+                    image.alt = "News Image";
+                    image.style.maxWidth = "100%";
+                    image.style.borderRadius = "10px";
+                    card.appendChild(image);
+                }
+
+                let details = document.createElement('div');
+                details.classList.add('news-details');
+                details.innerHTML = `
                 <p>${news.description || 'No description available.'}</p>
                 <p><a href="${news.url}" target="_blank">Read more</a></p>
             `;
-            card.appendChild(details);
+                card.appendChild(details);
 
-            card.addEventListener('click', () => {
-                card.classList.toggle('active');
+                card.addEventListener('click', () => {
+                    card.classList.toggle('active');
+                });
+
+                mainContainer.appendChild(card);
             });
 
-            mainContainer.appendChild(card);
-        });
+            // Update pagination controls
+            updatePaginationControls(filteredNews.length);
+        }
 
-        // Update pagination controls
-        updatePaginationControls(filteredNews.length);
-    }
-    
         function updatePaginationControls(totalNews) {
             prevPageButton.disabled = currentPage === 1;
             nextPageButton.disabled = (currentPage * newsPerPage) >= totalNews;
             pageInfo.textContent = `Page ${currentPage}`;
         }
-    
+
         prevPageButton.addEventListener('click', () => {
             if (currentPage > 1) {
                 currentPage--;
                 displayNews();
             }
         });
-    
+
         nextPageButton.addEventListener('click', () => {
             if ((currentPage * newsPerPage) < filteredNews.length) {
                 currentPage++;
                 displayNews();
             }
         });
-    
+
         categoryFilter.addEventListener('change', () => {
             fetchNewsButton.click(); // Re-fetch news when category changes
         });
-    
+
         sortDirection.addEventListener('change', () => {
             displayNews(); // Re-display news when sort direction changes
         });
