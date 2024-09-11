@@ -24,6 +24,7 @@
         }
 
         .container {
+            color:black;
             flex: 1;
             max-width: 1200px;
             margin: 30px auto;
@@ -123,61 +124,6 @@
             margin: 0;
         }
 
-        .login-container {
-            max-width: 400px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .login-container h2 {
-            margin-top: 0;
-            color: #0044cc;
-            font-size: 24px;
-            text-align: center;
-        }
-
-        .login-container input {
-            width: calc(100% - 22px);
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 5px;
-            border: 1px solid #ddd;
-            font-size: 16px;
-            display: block;
-            margin: 10px auto;
-        }
-
-        .login-container button {
-            background-color: #0044cc;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            display: block;
-            margin: 10px auto;
-        }
-
-        .login-container button:hover {
-            background-color: #003399;
-        }
-
-        .error-message {
-            color: red;
-            font-size: 14px;
-            text-align: center;
-        }
-
-        .success-message {
-            color: green;
-            font-size: 14px;
-            text-align: center;
-        }
-
         .pagination {
             text-align: center;
             margin: 20px 0;
@@ -202,7 +148,10 @@
             margin: 0 10px;
             font-size: 16px;
         }
-
+        .container div{
+                display: block;
+                font-size:30%;
+            }
         select {
             padding: 10px;
             border-radius: 5px;
@@ -226,22 +175,14 @@
     <nav>
         <ul>
             <li><a href="#">Home</a></li>
-            <li><a href="#">git-fetch</a></li>
+            <li><a href="json.html">git-fetch</a></li>
         </ul>
     </nav>
-
-    <div class="login-container">
-        <h2>Login</h2>
-        <input type="text" id="username" placeholder="Username" required>
-        <input type="password" id="password" placeholder="Password" required>
-        <button id="login">Login</button>
-        <p class="error-message" id="error-message"></p>
-        <p class="success-message" id="success-message"></p>
-    </div>
-
+    
     <div class="container">
-        <button id="fetchnews" disabled>Fetch News</button>
-        <input type="text" placeholder="Search News" id="search" disabled>
+        <h1>Breaking News For Today!</h1>
+        <button id="fetchnews">Fetch News</button>
+        <input type="text" placeholder="Search News" id="search">
         <div>
             <select id="categoryFilter">
                 <option value="">All Categories</option>
@@ -261,11 +202,9 @@
         </div>
     </div>
 
-
     <footer>
         <p>&copy; 2024 News WebApp. All Rights Reserved.</p>
     </footer>
-
 
     <script>
         let newsList = [];
@@ -276,43 +215,11 @@
         let mainContainer = document.querySelector('#news-container');
         let searchInput = document.querySelector('#search');
         let fetchNewsButton = document.querySelector('#fetchnews');
-        let loginButton = document.querySelector('#login');
-        let errorMessage = document.querySelector('#error-message');
-        let successMessage = document.querySelector('#success-message');
         let prevPageButton = document.querySelector('#prevPage');
         let nextPageButton = document.querySelector('#nextPage');
         let pageInfo = document.querySelector('#pageInfo');
         let categoryFilter = document.querySelector('#categoryFilter');
         let sortDirection = document.querySelector('#sortDirection');
-    
-        // Regular expressions for validation
-        const usernameRegex = /^[A-Za-z]+$/;
-        const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
-    
-        loginButton.addEventListener('click', () => {
-            const username = document.querySelector('#username').value;
-            const password = document.querySelector('#password').value;
-    
-            if (usernameRegex.test(username) && passwordRegex.test(password)) {
-                errorMessage.textContent = '';
-                successMessage.textContent = 'Login successful!';
-                enableSearch();
-            } else {
-                successMessage.textContent = '';
-                errorMessage.textContent = 'Invalid login. Please try again.';
-                disableSearch();
-            }
-        });
-    
-        function enableSearch() {
-            fetchNewsButton.disabled = false;
-            searchInput.disabled = false;
-        }
-    
-        function disableSearch() {
-            fetchNewsButton.disabled = true;
-            searchInput.disabled = true;
-        }
     
         const apiKey = '63b4fc19d6ce445796ef4aea1eba0478'; // Your API Key
     
@@ -352,58 +259,68 @@
         });
     
         function displayNews() {
-            mainContainer.innerHTML = "";  // Clear the container
-    
-            // Sort the filtered news alphabetically by title
-            let sortedNews = filteredNews.sort((a, b) => {
-                const titleA = a.title.toLowerCase();
-                const titleB = b.title.toLowerCase();
-                if (sortDirection.value === 'asc') {
-                    return titleA.localeCompare(titleB); // Ascending order
-                } else {
-                    return titleB.localeCompare(titleA); // Descending order
-                }
-            });
-    
-            // Pagination logic
-            let start = (currentPage - 1) * newsPerPage;
-            let end = start + newsPerPage;
-            let paginatedNews = sortedNews.slice(start, end);
-    
-            // If no news matches the search, display message
-            if (paginatedNews.length === 0) {
-                mainContainer.innerHTML = "<p>No matching news found.</p>";
-                updatePaginationControls(0);
-                return;
+        mainContainer.innerHTML = "";  // Clear the container
+
+        // Sort the filtered news alphabetically by title
+        let sortedNews = filteredNews.sort((a, b) => {
+            const titleA = a.title.toLowerCase();
+            const titleB = b.title.toLowerCase();
+            if (sortDirection.value === 'asc') {
+                return titleA.localeCompare(titleB); // Ascending order
+            } else {
+                return titleB.localeCompare(titleA); // Descending order
             }
-    
-            // Render each news card
-            paginatedNews.forEach(news => {
-                let card = document.createElement('div');
-                card.classList.add('news-card');
-    
-                let title = document.createElement('h3');
-                title.textContent = news.title;
-                card.appendChild(title);
-    
-                let details = document.createElement('div');
-                details.classList.add('news-details');
-                details.innerHTML = `
-                    <p>${news.description || 'No description available.'}</p>
-                    <p><a href="${news.url}" target="_blank">Read more</a></p>
-                `;
-                card.appendChild(details);
-    
-                card.addEventListener('click', () => {
-                    card.classList.toggle('active');
-                });
-    
-                mainContainer.appendChild(card);
-            });
-    
-            // Update pagination controls
-            updatePaginationControls(filteredNews.length);
+        });
+
+        // Pagination logic
+        let start = (currentPage - 1) * newsPerPage;
+        let end = start + newsPerPage;
+        let paginatedNews = sortedNews.slice(start, end);
+
+        // If no news matches the search, display message
+        if (paginatedNews.length === 0) {
+            mainContainer.innerHTML = "<p>No matching news found.</p>";
+            updatePaginationControls(0);
+            return;
         }
+
+        // Render each news card
+        paginatedNews.forEach(news => {
+            let card = document.createElement('div');
+            card.classList.add('news-card');
+
+            let title = document.createElement('h3');
+            title.textContent = news.title;
+            card.appendChild(title);
+
+            // Add image if available
+            if (news.urlToImage) {
+                let image = document.createElement('img');
+                image.src = news.urlToImage;
+                image.alt = "News Image";
+                image.style.maxWidth = "100%";
+                image.style.borderRadius = "10px";
+                card.appendChild(image);
+            }
+
+            let details = document.createElement('div');
+            details.classList.add('news-details');
+            details.innerHTML = `
+                <p>${news.description || 'No description available.'}</p>
+                <p><a href="${news.url}" target="_blank">Read more</a></p>
+            `;
+            card.appendChild(details);
+
+            card.addEventListener('click', () => {
+                card.classList.toggle('active');
+            });
+
+            mainContainer.appendChild(card);
+        });
+
+        // Update pagination controls
+        updatePaginationControls(filteredNews.length);
+    }
     
         function updatePaginationControls(totalNews) {
             prevPageButton.disabled = currentPage === 1;
@@ -433,7 +350,7 @@
             displayNews(); // Re-display news when sort direction changes
         });
     </script>
-    
+
 </body>
 
 </html>

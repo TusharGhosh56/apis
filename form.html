@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Form</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+        }
+
+        body {
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        nav {
+            background-color: #a5a5a5;
+            color: #fff;
+            padding: 15px 0;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            position: absolute;
+            top: 0;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        nav ul li {
+            display: inline;
+            margin: 0 20px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .login-container {
+            max-width: 400px;
+            width: 100%;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 60px;
+        }
+
+        .login-container h2 {
+            margin-top: 0;
+            color: #0044cc;
+            font-size: 24px;
+            text-align: center;
+        }
+
+        .login-container input {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+            display: block;
+            margin: 10px auto;
+        }
+
+        .login-container button {
+            background-color: #0044cc;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            display: block;
+            margin: 10px auto;
+        }
+
+        .login-container button:hover {
+            background-color: #003399;
+        }
+
+        .error-message, .success-message {
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .error-message {
+            color: red;
+        }
+
+        .success-message {
+            color: green;
+        }
+
+        footer {
+            background-color: #959699;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+            margin-top: auto;
+            width: 100%;
+            position: absolute;
+            bottom: 0;
+        }
+
+        footer p {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">git-fetch</a></li>
+        </ul>
+    </nav>
+
+    <div class="login-container">
+        <h2>Login</h2>
+        <input type="email" id="email" placeholder="Email" required>
+        <input type="text" id="username" placeholder="Username" required>
+        <input type="password" id="password" placeholder="Password" required>
+        <button id="login">Login</button>
+        <p class="error-message" id="error-message"></p>
+        <p class="success-message" id="success-message"></p>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 News WebApp. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const usernameRegex = /^[A-Za-z]+$/;
+        const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+
+        document.getElementById('login').addEventListener('click', () => {
+            const email = document.getElementById('email').value;
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('error-message');
+            const successMessage = document.getElementById('success-message');
+
+            if (!emailRegex.test(email)) {
+                errorMessage.textContent = 'Invalid email. Please enter a valid email.';
+                successMessage.textContent = '';
+                return;
+            }
+
+            if (!usernameRegex.test(username)) {
+                errorMessage.textContent = 'Invalid username. Username must contain only letters.';
+                successMessage.textContent = '';
+                return;
+            }
+
+            if (!passwordRegex.test(password)) {
+                errorMessage.textContent = 'Invalid password. Password must be at least 8 characters, with at least one letter and one number.';
+                successMessage.textContent = '';
+                return;
+            }
+
+            errorMessage.textContent = '';
+            successMessage.textContent = 'Login successful!';
+            
+            // Redirect to the news page after successful login
+            setTimeout(() => {
+                window.location.href = 'webcia3.html';
+            }, 1000);  // Redirect after 1 second
+        });
+    </script>
+
+</body>
+</html>
